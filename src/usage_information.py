@@ -1,44 +1,35 @@
+from statsbombpy import sb
 import sb_ids as ids
-
 
 def display_competitions(gender='m'):
     if gender == 'm' or gender == 'men' or gender == 'mens':
-        print("Men's Competitions:\n--------------------------------------------------")
+        print("Men's Competitions (name - id):\n--------------------------------------------------")
 
         for key, value in ids.mens_comp_ids.items():
-            print(f"{key}: {value}")
+            print(f"{key} - {value}")
         print()
 
     elif gender == 'w' or gender == 'women' or gender == 'womens':
-        print("Women's Competitions:\n--------------------------------------------------")
+        print("Women's Competitions (name - id):\n--------------------------------------------------")
 
         for key, value in ids.womens_comp_ids.items():
-            print(f"{key}: {value}")
+            print(f"{key} - {value}")
         print()
 
-def display_seasons(comp_id, gender='m'):
-    comp_name = None
+def display_seasons(comp_id):
+    seasons_exist = False
+    comps = sb.competitions()
+    comps = comps.sort_values(by='season_id')
 
-    if gender == 'm' or gender == 'men' or gender == 'mens':
-        for key, value in ids.mens_comp_ids.items():
-            if value == comp_id:
-                comp_name = key
-                break
+    print("Available Seasons (season - id):\n--------------------------------------------------")
+    for _, comp in comps.iterrows():
+        if comp['competition_id'] == comp_id:
+            seasons_exist = True
+            print(f'{comp['season_name']} - {comp["season_id"]}')
 
-    if comp_name is not None:
-        dict_to_display_name = "season_ids_" + comp_name
-        try:
-            dict_to_display = getattr(ids, dict_to_display_name)
-        except AttributeError:
-            print("ERROR: No seasons found for this competition.")
-            return
-    else:
-        print("ERROR: Competition not found.")
-        return
+    if not seasons_exist:
+        print("ERROR: No seasons available or no competition found with the specified id.")
 
-    print(f"{comp_name}\n--------------------------------------------------")
-    for key, value in dict_to_display.items():
-        print(f"{key}: {value}")
 
 display_competitions()
-display_seasons(7)
+display_seasons(2)
