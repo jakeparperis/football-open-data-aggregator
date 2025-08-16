@@ -12,6 +12,8 @@ def display_competitions():
             comps_displayed.append(comp['competition_id'])
             print(f"{comp['competition_name']} - {comp['competition_id']}")
 
+    print()
+
 def display_seasons(comp_id):
     seasons_exist = False
     comps = sb.competitions()
@@ -26,4 +28,7 @@ def display_seasons(comp_id):
     if not seasons_exist:
         print("ERROR: No seasons available or no competition found with the specified id.")
 
+    print()
+
 display_competitions()
+display_seasons(2)
