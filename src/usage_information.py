@@ -1,5 +1,4 @@
 from statsbombpy import sb
-import sb_ids as ids
 
 
 def display_competitions():
